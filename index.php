@@ -1,0 +1,410 @@
+<?php
+$apiActosUrl = 'https://fssaf.davidcortellaguilar.es/api/ultimos-actos.php';
+
+$actosApi = [];
+$proximosActos = [];
+$ultimosActos = [];
+
+$response = @file_get_contents($apiActosUrl);
+
+if ($response !== false) {
+    $json = json_decode($response, true);
+
+    if (!empty($json['success']) && !empty($json['actos'])) {
+        $actosApi = $json['actos'];
+    }
+}
+
+$hoy = date('Y-m-d');
+
+foreach ($actosApi as $acto) {
+    if (empty($acto['fecha'])) {
+        continue;
+    }
+
+    $fechaActo = date('Y-m-d', strtotime($acto['fecha']));
+
+    if ($fechaActo >= $hoy) {
+        $proximosActos[] = $acto;
+    } else {
+        $ultimosActos[] = $acto;
+    }
+}
+
+usort($proximosActos, function($a, $b) {
+    return strtotime($a['fecha']) <=> strtotime($b['fecha']);
+});
+
+usort($ultimosActos, function($a, $b) {
+    return strtotime($b['fecha']) <=> strtotime($a['fecha']);
+});
+
+$proximosActos = array_slice($proximosActos, 0, 3);
+$ultimosActos = array_slice($ultimosActos, 0, 3);
+?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Falla San Sebastián Arzobispo Fuero | Falla en Godella</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="description" content="Falla San Sebastián Arzobispo Fuero de Godella. Consulta nuestros actos falleros, representantes, galería, ubicación del casal y actualidad de la comisión.">
+  <link rel="canonical" href="https://davidcortellaguilar.es">
+    <meta property="og:title" content="Falla San Sebastián Arzobispo Fuero">
+    <meta property="og:description" content="Comisión fallera de Godella con actos, representantes y actualidad fallera.">
+    <meta property="og:image" content="https://davidcortellaguilar.es/public_html/FallaWeb/assets/img/hero2.webp">
+
+  <link rel="icon" type="image/png" href="assets/img/icon-192.png">
+  <link rel="preload" as="image" href="assets/img/hero2.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/img/icon-192.png">
+
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css?v=<?= filemtime('assets/css/style.css') ?>">
+</head>
+
+<body>
+
+<div class="cursor-glow"></div>
+
+<header class="site-header" id="siteHeader">
+  <div class="container nav">
+    <a href="#inicio" class="logo">
+      <img src="assets/img/icon-192.png" alt="Logo Falla San Sebastián Arzobispo Fuero" width="58" height="58">
+      <strong>Falla San Sebastián<br>Arzobispo Fuero</strong>
+    </a>
+
+    <button class="menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
+
+    <nav id="mainNav">
+      <a href="#inicio">Inicio</a>
+      <a href="#quienes-somos">¿Quiénes somos?</a>
+      <a href="#actos">Actos</a>
+      <a href="#representantes">Representantes</a>
+      <a href="#galeria">Galería</a>
+      <a href="https://fssaf.davidcortellaguilar.es/" class="btn-login">Área fallera</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" id="inicio">
+  <div class="container hero-content reveal">
+    <span class="hero-kicker">Tradición · Cultura · Germanor</span>
+
+    <h1>Falla San Sebastián<br>Arzobispo Fuero</h1>
+
+    <p>
+      Una comisión viva, cercana y participativa donde la tradición fallera,
+      la música, la pólvora y la convivencia se viven durante todo el año.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#actos" class="btn-primary">Ver Actos</a>
+
+      <div class="nav-socials hero-socials" aria-label="Redes sociales">
+        <a href="https://www.instagram.com/fallasansebastian?igsh=N2N3NGp5NzRsZjZw" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7.75 2h8.5A5.76 5.76 0 0 1 22 7.75v8.5A5.76 5.76 0 0 1 16.25 22h-8.5A5.76 5.76 0 0 1 2 16.25v-8.5A5.76 5.76 0 0 1 7.75 2Zm0 2A3.76 3.76 0 0 0 4 7.75v8.5A3.76 3.76 0 0 0 7.75 20h8.5A3.76 3.76 0 0 0 20 16.25v-8.5A3.76 3.76 0 0 0 16.25 4h-8.5Zm8.75 2.05a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/>
+          </svg>
+        </a>
+
+        <a href="https://www.instagram.com/juntajovefssaf?igsh=MTAwMXJzbWpxdjlmcw==" target="_blank" rel="noopener noreferrer" aria-label="Instagram Junta Jove">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7.75 2h8.5A5.76 5.76 0 0 1 22 7.75v8.5A5.76 5.76 0 0 1 16.25 22h-8.5A5.76 5.76 0 0 1 2 16.25v-8.5A5.76 5.76 0 0 1 7.75 2Zm0 2A3.76 3.76 0 0 0 4 7.75v8.5A3.76 3.76 0 0 0 7.75 20h8.5A3.76 3.76 0 0 0 20 16.25v-8.5A3.76 3.76 0 0 0 16.25 4h-8.5Zm8.75 2.05a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/>
+          </svg>
+        </a>
+
+        <a href="https://www.facebook.com/p/Asociaci%C3%B3n-Cultural-Falla-San-Sebasti%C3%A1n-Arzobispo-Fuero-100064805763681/?locale=es_ES" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M14 8.5V6.75c0-.5.4-.75.86-.75H17V2.2A24.3 24.3 0 0 0 13.89 2C10.8 2 8.7 3.88 8.7 7.27V8.5H5.25v4.25H8.7V22H13v-9.25h3.37L17 8.5h-3Z"/>
+          </svg>
+        </a>
+
+        <a href="https://www.tiktok.com/@fallasansebastian?_r=1&_t=ZN-96jZAeTTSiM" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M16.6 2c.28 2.36 1.62 3.77 3.9 3.92v3.7a7.8 7.8 0 0 1-3.86-.96v6.86c0 3.47-2.08 6.48-6.17 6.48-3.27 0-5.97-2.12-5.97-5.46 0-3.82 3.4-6.04 7.18-5.32v3.9c-1.6-.5-3.28.18-3.28 1.42 0 1.06.92 1.72 1.98 1.72 1.55 0 2.1-.95 2.1-2.7V2h4.12Z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container hero-glass-cards">
+    <div class="hero-glass-card reveal">
+      <span>🔥</span>
+      <div>
+        <h3>Pasión fallera</h3>
+        <p>Ilusión, tradición y orgullo de comisión.</p>
+      </div>
+    </div>
+
+    <div class="hero-glass-card reveal">
+      <span>🎺</span>
+      <div>
+        <h3>Cultura y fiesta</h3>
+        <p>Música, pólvora y ambiente fallero.</p>
+      </div>
+    </div>
+
+    <div class="hero-glass-card reveal">
+      <span>💜</span>
+      <div>
+        <h3>Nuestra gente</h3>
+        <p>Una familia unida por la germanor.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section about-section" id="quienes-somos">
+  <div class="container about-grid">
+    <div class="about-content reveal">
+      <div class="about-top">
+        <div class="about-text">
+          <span class="section-label">Quiénes somos</span>
+
+          <h2>Falla San Sebastián Arzobispo Fuero</h2>
+
+          <p>
+            Somos una comisión fallera de Godella que vive la fiesta durante todo el año,
+            manteniendo viva la tradición, la cultura valenciana, la música, la pólvora,
+            la convivencia y la germanor entre falleros, familias y vecinos.
+          </p>
+
+          <p>
+            Nuestra falla es un punto de encuentro donde cada acto, cena, presentación,
+            monumento y celebración forma parte de una historia compartida por toda la comisión.
+          </p>
+        </div>
+
+        <div class="about-logo">
+          <img src="assets/img/icon-192.png" alt="Logo Falla San Sebastián Arzobispo Fuero">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container map-wrapper reveal">
+    <div class="map-info">
+      <span class="section-label">Dónde estamos</span>
+      <h2>Ubicación de nuestro Casal</h2>
+      <p>
+        Encuéntranos en Godella y ven a disfrutar de nuestros actos, celebraciones
+        y actividades falleras.
+      </p>
+    </div>
+
+    <div class="map-card">
+      <iframe
+        src="https://www.google.com/maps?q=Falla%20San%20Sebasti%C3%A1n%20Arzobispo%20Fuero%20Godella&output=embed"
+        width="100%"
+        height="100%"
+        allowfullscreen
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="actos">
+  <div class="container">
+    <div class="section-title reveal">
+      <span>Agenda fallera</span>
+      <h2>Próximos actos</h2>
+      <p>Consulta los próximos eventos y actividades de nuestra comisión.</p>
+    </div>
+
+    <div class="cards-grid actos-grid <?= count($proximosActos) < 3 ? 'actos-grid-center' : '' ?>">
+      <?php if (!empty($proximosActos)): ?>
+        <?php foreach ($proximosActos as $acto): ?>
+          <article class="event-card reveal">
+            <?php if (!empty($acto['imagen'])): ?>
+              <img src="<?= htmlspecialchars($acto['imagen']) ?>" alt="<?= htmlspecialchars($acto['titulo']) ?>" loading="lazy">
+            <?php else: ?>
+              <img src="assets/img/icon-192.png" alt="<?= htmlspecialchars($acto['titulo']) ?>" loading="lazy">
+            <?php endif; ?>
+
+            <div class="event-content">
+              <span class="event-date">
+                <?= htmlspecialchars(date('d/m/Y', strtotime($acto['fecha']))) ?>
+              </span>
+
+              <h3><?= htmlspecialchars($acto['titulo']) ?></h3>
+
+              <p>
+                <?= htmlspecialchars(mb_strimwidth($acto['descripcion'] ?? 'Acto de la comisión fallera.', 0, 120, '...')) ?>
+              </p>
+            </div>
+          </article>
+        <?php endforeach; ?>
+      <?php else: ?>
+        <div class="no-actos reveal">
+          Nuevos Actos Próximamente...
+        </div>
+      <?php endif; ?>
+    </div>
+  </div>
+</section>
+
+<section class="section light" id="ultimos-actos">
+  <div class="container">
+    <div class="section-title reveal">
+      <span>Actualidad</span>
+      <h2>Últimos actos</h2>
+      <p>Revive los últimos actos y momentos importantes de nuestra comisión.</p>
+    </div>
+
+    <div class="cards-grid">
+      <?php if (!empty($ultimosActos)): ?>
+        <?php foreach ($ultimosActos as $acto): ?>
+          <article class="event-card reveal">
+            <?php if (!empty($acto['imagen'])): ?>
+              <img src="<?= htmlspecialchars($acto['imagen']) ?>" alt="<?= htmlspecialchars($acto['titulo']) ?>" loading="lazy">
+            <?php else: ?>
+              <img src="assets/img/icon-192.png" alt="<?= htmlspecialchars($acto['titulo']) ?>" loading="lazy">
+            <?php endif; ?>
+
+            <div class="event-content">
+              <span class="event-date">
+                <?= htmlspecialchars(date('d/m/Y', strtotime($acto['fecha']))) ?>
+              </span>
+
+              <h3><?= htmlspecialchars($acto['titulo']) ?></h3>
+
+              <p>
+                <?= htmlspecialchars(mb_strimwidth($acto['descripcion'] ?? 'Acto de la comisión fallera.', 0, 120, '...')) ?>
+              </p>
+            </div>
+          </article>
+        <?php endforeach; ?>
+      <?php else: ?>
+        <div class="no-actos reveal">
+          No hay actos anteriores
+        </div>
+      <?php endif; ?>
+    </div>
+  </div>
+</section>
+
+<section class="section light" id="representantes">
+  <div class="container">
+    <div class="section-title reveal">
+      <span>Representantes</span>
+      <h2>Representantes del ejercicio 2026/2027</h2>
+      <p>Las personas que representan con orgullo a nuestra comisión.</p>
+    </div>
+
+    <div class="representantes-cards-grid reveal">
+      <article class="representante-persona-card">
+        <img src="assets/img/ramon.webp" alt="Presidente Falla San Sebastián Arzobispo Fuero Ramón Andreu Tamarit">
+        <span>Presidente</span>
+        <h3>Ramón Andreu Tamarit</h3>
+      </article>
+
+      <article class="representante-persona-card">
+        <img src="assets/img/cristina.webp" alt="Fallera Mayor Falla San Sebastián Arzobispo Fuero Cristina Menchón Sánchez">
+        <span>Fallera Mayor</span>
+        <h3>Cristina Menchón Sánchez</h3>
+      </article>
+
+      <article class="representante-persona-card">
+        <img src="assets/img/natxo.webp" alt="Presidente Infantil Falla San Sebastián Arzobispo Fuero Natxo Sánchez Contreras">
+        <span>Presidente Infantil</span>
+        <h3>Natxo Sánchez Contreras</h3>
+      </article>
+
+      <article class="representante-persona-card">
+        <img src="assets/img/nerea.webp" alt="Fallera Mayor Infantil Falla San Sebastián Arzobispo Fuero Nerea Álamo Montero">
+        <span>Fallera Mayor Infantil</span>
+        <h3>Nerea Álamo<br>Montero</h3>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="galeria">
+  <div class="container">
+    <div class="section-title reveal">
+      <span>Momentos</span>
+      <h2>Galería fallera</h2>
+      <p>Imágenes que resumen nuestra historia, actos y celebraciones.</p>
+    </div>
+
+    <div class="gallery-grid">
+      <img class="reveal" src="assets/img/nereanacho.webp" alt="Presidente Infantil y Fallera Mayor Infantil Falla San Sebastián Arzobispo Fuero" loading="lazy">
+      <img class="reveal" src="assets/img/ramoncristina.webp" alt="Presidente y Fallera Mayor Falla San Sebastián Arzobispo Fuero" loading="lazy">
+      <img class="reveal" src="assets/img/juveniles.webp" alt="Juveniles Falla San Sebastián Arzobispo Fuero" loading="lazy">
+      <img class="reveal" src="assets/img/carroza.webp" alt="Carroza Falla San Sebastián Arzobispo Fuero" loading="lazy">
+      <img class="reveal" src="assets/img/falleros.webp" alt="Premios Falla San Sebastián Arzobispo Fuero" loading="lazy">
+      <img class="reveal" src="assets/img/falleras.webp" alt="Falleras Falla San Sebastián Arzobispo Fuero" loading="lazy">
+      <img class="reveal" src="assets/img/premiosfalla.webp" alt="Premios Falla San Sebastián Arzobispo Fuero" loading="lazy">
+      <img class="reveal" src="assets/img/cenafalla.webp" alt="Cena Representantes Falla San Sebastián Arzobispo Fuero" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<section class="section contact-section" id="contacto">
+  <div class="container contact-card reveal">
+    <div>
+      <h2>¿Quieres saber más de la falla?</h2>
+      <p>Visítanos o accede al área fallera para consultar actos, avisos y actividades de la comisión.</p>
+    </div>
+
+    <a href="https://fssaf.davidcortellaguilar.es/" class="btn-primary">Ir al área fallera</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container footer-content">
+    <p>© <?= date('Y') ?> Falla San Sebastián Arzobispo Fuero</p>
+    <div class="nav-socials hero-socials" aria-label="Redes sociales">
+        <a href="https://www.instagram.com/fallasansebastian?igsh=N2N3NGp5NzRsZjZw" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7.75 2h8.5A5.76 5.76 0 0 1 22 7.75v8.5A5.76 5.76 0 0 1 16.25 22h-8.5A5.76 5.76 0 0 1 2 16.25v-8.5A5.76 5.76 0 0 1 7.75 2Zm0 2A3.76 3.76 0 0 0 4 7.75v8.5A3.76 3.76 0 0 0 7.75 20h8.5A3.76 3.76 0 0 0 20 16.25v-8.5A3.76 3.76 0 0 0 16.25 4h-8.5Zm8.75 2.05a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/>
+          </svg>
+        </a>
+
+        <a href="https://www.instagram.com/juntajovefssaf?igsh=MTAwMXJzbWpxdjlmcw==" target="_blank" rel="noopener noreferrer" aria-label="Instagram Junta Jove">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7.75 2h8.5A5.76 5.76 0 0 1 22 7.75v8.5A5.76 5.76 0 0 1 16.25 22h-8.5A5.76 5.76 0 0 1 2 16.25v-8.5A5.76 5.76 0 0 1 7.75 2Zm0 2A3.76 3.76 0 0 0 4 7.75v8.5A3.76 3.76 0 0 0 7.75 20h8.5A3.76 3.76 0 0 0 20 16.25v-8.5A3.76 3.76 0 0 0 16.25 4h-8.5Zm8.75 2.05a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/>
+          </svg>
+        </a>
+
+        <a href="https://www.facebook.com/p/Asociaci%C3%B3n-Cultural-Falla-San-Sebasti%C3%A1n-Arzobispo-Fuero-100064805763681/?locale=es_ES" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M14 8.5V6.75c0-.5.4-.75.86-.75H17V2.2A24.3 24.3 0 0 0 13.89 2C10.8 2 8.7 3.88 8.7 7.27V8.5H5.25v4.25H8.7V22H13v-9.25h3.37L17 8.5h-3Z"/>
+          </svg>
+        </a>
+
+        <a href="https://www.tiktok.com/@fallasansebastian?_r=1&_t=ZN-96jZAeTTSiM" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M16.6 2c.28 2.36 1.62 3.77 3.9 3.92v3.7a7.8 7.8 0 0 1-3.86-.96v6.86c0 3.47-2.08 6.48-6.17 6.48-3.27 0-5.97-2.12-5.97-5.46 0-3.82 3.4-6.04 7.18-5.32v3.9c-1.6-.5-3.28.18-3.28 1.42 0 1.06.92 1.72 1.98 1.72 1.55 0 2.1-.95 2.1-2.7V2h4.12Z"/>
+          </svg>
+        </a>
+      </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js?v=7" defer></script>
+</body>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Falla San Sebastián Arzobispo Fuero",
+  "url": "https://falla.davidcortellaguilar.es/",
+  "logo": "https://falla.davidcortellaguilar.es/assets/img/icon-192.png",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Godella",
+    "addressRegion": "Valencia",
+    "addressCountry": "ES"
+  },
+  "sameAs": [
+    "https://www.instagram.com/fallasansebastian",
+    "https://www.facebook.com/p/Asociaci%C3%B3n-Cultural-Falla-San-Sebasti%C3%A1n-Arzobispo-Fuero-100064805763681/"
+  ]
+}
+</script>
+</html>
