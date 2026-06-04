@@ -1,5 +1,5 @@
 <?php
-$apiActosUrl = 'https://fssaf.davidcortellaguilar.es/api/ultimos-actos.php';
+$apiActosUrl = 'https://app.fssaf.es/api/ultimos-actos.php';
 
 $actosApi = [];
 $proximosActos = [];
@@ -50,10 +50,10 @@ $ultimosActos = array_slice($ultimosActos, 0, 3);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <meta name="description" content="Falla San Sebastián Arzobispo Fuero de Godella. Consulta nuestros actos falleros, representantes, galería, ubicación del casal y actualidad de la comisión.">
-  <link rel="canonical" href="https://davidcortellaguilar.es">
+  <link rel="canonical" href="https://fssaf.es">
     <meta property="og:title" content="Falla San Sebastián Arzobispo Fuero">
     <meta property="og:description" content="Comisión fallera de Godella con actos, representantes y actualidad fallera.">
-    <meta property="og:image" content="https://davidcortellaguilar.es/public_html/FallaWeb/assets/img/hero2.webp">
+    <meta property="og:image" content="https://fssaf.es/public_html/assets/img/hero2.webp">
 
   <link rel="icon" type="image/png" href="assets/img/icon-192.png">
   <link rel="preload" as="image" href="assets/img/hero2.webp" fetchpriority="high">
@@ -82,7 +82,7 @@ $ultimosActos = array_slice($ultimosActos, 0, 3);
       <a href="#actos">Actos</a>
       <a href="#representantes">Representantes</a>
       <a href="#galeria">Galería</a>
-      <a href="https://fssaf.davidcortellaguilar.es/" class="btn-login">Área fallera</a>
+      <a href="https://app.fssaf.es/" class="btn-login">Área fallera</a>
     </nav>
   </div>
 </header>
@@ -344,6 +344,119 @@ $ultimosActos = array_slice($ultimosActos, 0, 3);
   </div>
 </section>
 
+<section class="section cuotas-section" id="tarifas">
+  <div class="container">
+    <div class="section-title reveal">
+      <span>Hazte fallero/a</span>
+      <h2>Cuotas Faller@s</h2>
+      <p>Forma parte de nuestra comisión y elige la modalidad que mejor se adapte a ti: sin lotería, con lotería semanal, Navidad/Niño o toda la lotería.</p>
+    </div>
+
+    <div class="cuotas-hero reveal">
+      <div class="cuota-destacada">
+        <h3>Comisión Mayor</h3>
+        <div class="precio">Desde 21,70€/mes</div>
+        <p>Importe anual desde 260,40€ con toda la lotería incluida.</p>
+      </div>
+
+      <div class="cuota-destacada">
+        <h3>Comisión Infantil</h3>
+        <div class="precio">Desde 10,40€/mes</div>
+        <p>Importe anual desde 124,80€ con toda la lotería incluida.</p>
+      </div>
+    </div>
+
+    <div class="cuotas-grid reveal">
+      <div class="cuota-card">
+        <h3>Sin lotería</h3>
+        <div class="fila"><span>Adultos</span><strong style="color: var(--orange);">29,00€/mes</strong></div>
+        <div class="fila"><span>Importe anual adultos</span><strong>348,00€</strong></div>
+        <div class="fila"><span>Infantiles</span><strong style="color: var(--orange);">13,50€/mes</strong></div>
+        <div class="fila"><span>Importe anual infantiles</span><strong>162,00€</strong></div>
+        <p class="cuota-info">Sin papeletas mensuales ni papeletas de Navidad/Niño.</p>
+      </div>
+
+      <div class="cuota-card">
+        <h3>Lotería Navidad/Niño</h3>
+        <div class="fila"><span>Adultos</span><strong style="color: var(--orange);">25,00€/mes</strong></div>
+        <div class="fila"><span>Papeletas Navidad/Niño adultos</span><strong>40</strong></div>
+        <div class="fila"><span>Importe anual adultos</span><strong>300,00€</strong></div>
+        <div class="fila"><span>Infantiles</span><strong style="color: var(--orange);">11,50€/mes</strong></div>
+        <div class="fila"><span>Papeletas Navidad/Niño infantiles</span><strong>20</strong></div>
+        <div class="fila"><span>Importe anual infantiles</span><strong>138,00€</strong></div>
+      </div>
+
+      <div class="cuota-card">
+        <h3>Lotería semanal</h3>
+        <div class="fila"><span>Adultos</span><strong style="color: var(--orange);">25,70€/mes</strong></div>
+        <div class="fila"><span>Papeletas mensuales adultos</span><strong>3</strong></div>
+        <div class="fila"><span>Importe anual adultos</span><strong>308,40€</strong></div>
+        <div class="fila"><span>Infantiles</span><strong style="color: var(--orange);">12,40€/mes</strong></div>
+        <div class="fila"><span>Papeletas mensuales infantiles</span><strong>1</strong></div>
+        <div class="fila"><span>Importe anual infantiles</span><strong>148,80€</strong></div>
+      </div>
+
+      <div class="cuota-card cuota-premium">
+        <h3>Toda la lotería</h3>
+        <div class="fila"><span>Adultos</span><strong style="color: var(--orange);">21,70€/mes</strong></div>
+        <div class="fila"><span>Papeletas mensuales adultos</span><strong>3</strong></div>
+        <div class="fila"><span>Papeletas Navidad/Niño adultos</span><strong>40</strong></div>
+        <div class="fila"><span>Importe anual adultos</span><strong>260,40€</strong></div>
+        <div class="fila"><span>Infantiles</span><strong style="color: var(--orange);">10,40€/mes</strong></div>
+        <div class="fila"><span>Papeletas mensuales infantiles</span><strong>1</strong></div>
+        <div class="fila"><span>Papeletas Navidad/Niño infantiles</span><strong>20</strong></div>
+        <div class="fila"><span>Importe anual infantiles</span><strong>124,80€</strong></div>
+      </div>
+    </div>
+
+    <div class="descuentos-familia reveal">
+      <h3>Descuentos para familias</h3>
+      <p>Cuantos más integrantes formen parte de la comisión, mayor será el descuento aplicado.</p>
+
+      <div class="familia-grid">
+        <div>
+          <strong>1 Faller@</strong>
+          <span>0€/mes por persona</span>
+          <small>0€/año por familia</small>
+        </div>
+
+        <div>
+          <strong>2 Faller@s</strong>
+          <span>1€/mes por persona</span>
+          <small>12€/año por familia</small>
+        </div>
+
+        <div>
+          <strong>3 Faller@s</strong>
+          <span>1,50€/mes por persona</span>
+          <small>30€/año por familia</small>
+        </div>
+
+        <div>
+          <strong>4 Faller@s</strong>
+          <span>2€/mes por persona</span>
+          <small>54€/año por familia</small>
+        </div>
+
+        <div>
+          <strong>5 Faller@s</strong>
+          <span>2,50€/mes por persona</span>
+          <small>84€/año por familia</small>
+        </div>
+      </div>
+    </div>
+    
+    <div class="descuentos-familia reveal">
+      <h3>Información Adicional</h3>
+      <div class="notas-cuotas">
+        <small>* Los infantiles menores de 4 años no pagan cuotas.</small><br>
+        <small>* Si cumplen 4 años durante el ejercicio actual pagarán cuota de infantil.</small><br>
+        <small>* Los infantiles pasan a comisión mayor si cumplen 15 años durante el ejercicio.</small>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="section contact-section" id="contacto">
   <div class="container contact-card reveal">
     <div>
@@ -351,7 +464,7 @@ $ultimosActos = array_slice($ultimosActos, 0, 3);
       <p>Visítanos o accede al área fallera para consultar actos, avisos y actividades de la comisión.</p>
     </div>
 
-    <a href="https://fssaf.davidcortellaguilar.es/" class="btn-primary">Ir al área fallera</a>
+    <a href="https://app.fssaf.es/" class="btn-primary">Ir al área fallera</a>
   </div>
 </section>
 
@@ -393,8 +506,8 @@ $ultimosActos = array_slice($ultimosActos, 0, 3);
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "Falla San Sebastián Arzobispo Fuero",
-  "url": "https://falla.davidcortellaguilar.es/",
-  "logo": "https://falla.davidcortellaguilar.es/assets/img/icon-192.png",
+  "url": "https://fssaf.es/",
+  "logo": "https://fssaf.es/assets/img/icon-192.png",
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Godella",
