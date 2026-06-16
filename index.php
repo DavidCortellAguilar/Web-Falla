@@ -41,25 +41,69 @@ usort($ultimosActos, function($a, $b) {
 
 $proximosActos = array_slice($proximosActos, 0, 3);
 $ultimosActos = array_slice($ultimosActos, 0, 3);
+
+function e($value): string {
+    return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
+}
+
+function actoDataAttrs(array $acto): string {
+    $fecha = !empty($acto['fecha']) ? date('d/m/Y', strtotime($acto['fecha'])) : '';
+    $hora = '';
+    if (!empty($acto['hora'])) {
+        $hora = substr((string)$acto['hora'], 0, 5);
+    }
+
+    $datos = [
+        'titulo' => (string)($acto['titulo'] ?? 'Acto'),
+        'descripcion' => (string)($acto['descripcion'] ?? 'Acto de la comisión fallera.'),
+        'fecha' => $fecha,
+        'hora' => $hora,
+        'ubicacion' => (string)($acto['ubicacion'] ?? ($acto['lugar'] ?? '')),
+        'imagen' => (string)($acto['imagen'] ?? 'assets/img/icon-192.png'),
+    ];
+
+    return ' data-act-title="' . e($datos['titulo']) . '"'
+        . ' data-act-description="' . e($datos['descripcion']) . '"'
+        . ' data-act-date="' . e($datos['fecha']) . '"'
+        . ' data-act-time="' . e($datos['hora']) . '"'
+        . ' data-act-location="' . e($datos['ubicacion']) . '"'
+        . ' data-act-image="' . e($datos['imagen']) . '"';
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Falla San Sebastián Arzobispo Fuero | Falla en Godella</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <meta name="description" content="Falla San Sebastián Arzobispo Fuero de Godella. Consulta nuestros actos falleros, representantes, galería, ubicación del casal y actualidad de la comisión.">
-  <link rel="canonical" href="https://fssaf.es">
-    <meta property="og:title" content="Falla San Sebastián Arzobispo Fuero">
-    <meta property="og:description" content="Comisión fallera de Godella con actos, representantes y actualidad fallera.">
-    <meta property="og:image" content="https://fssaf.es/public_html/assets/img/hero2.webp">
 
-  <link rel="icon" type="image/png" href="assets/img/icon-192.png">
+  <title>Falla San Sebastián Arzobispo Fuero | Falla en Godella</title>
+
+  <meta name="description" content="Falla San Sebastián Arzobispo Fuero de Godella. Consulta actos falleros, representantes, galería, ubicación del casal y actualidad de la comisión.">
+  <meta name="keywords" content="Falla San Sebastián Arzobispo Fuero, Falla Godella, fallas Godella, comisión fallera Godella, actos falleros Godella, casal fallero Godella, representantes falleros, fallas Valencia">
+  <meta name="author" content="Falla San Sebastián Arzobispo Fuero">
+
+  <link rel="canonical" href="https://fssaf.es/">
+
+  <meta property="og:title" content="Falla San Sebastián Arzobispo Fuero | Falla en Godella">
+  <meta property="og:description" content="Comisión fallera de Godella. Consulta nuestros actos, representantes, galería, ubicación del casal y actualidad fallera.">
+  <meta property="og:image" content="https://fssaf.es/assets/img/hero2.webp">
+  <meta property="og:url" content="https://fssaf.es/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Falla San Sebastián Arzobispo Fuero">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Falla San Sebastián Arzobispo Fuero | Falla en Godella">
+  <meta name="twitter:description" content="Actos, representantes, galería y actualidad de la Falla San Sebastián Arzobispo Fuero de Godella.">
+  <meta name="twitter:image" content="https://fssaf.es/assets/img/hero2.webp">
+
+  <link rel="icon" type="image/png" href="assets/img/icon-192.png?v=4">
   <link rel="preload" as="image" href="assets/img/hero2.webp" fetchpriority="high">
   <link rel="preload" as="image" href="assets/img/icon-192.png">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="assets/css/style.css?v=<?= filemtime('assets/css/style.css') ?>">
 </head>
 
@@ -129,31 +173,31 @@ $ultimosActos = array_slice($ultimosActos, 0, 3);
     </div>
   </div>
 
-  <div class="container hero-glass-cards">
-    <div class="hero-glass-card reveal">
-      <span>🔥</span>
-      <div>
-        <h3>Pasión fallera</h3>
-        <p>Ilusión, tradición y orgullo de comisión.</p>
-      </div>
-    </div>
-
-    <div class="hero-glass-card reveal">
-      <span>🎺</span>
-      <div>
-        <h3>Cultura y fiesta</h3>
-        <p>Música, pólvora y ambiente fallero.</p>
-      </div>
-    </div>
-
-    <div class="hero-glass-card reveal">
-      <span>💜</span>
-      <div>
-        <h3>Nuestra gente</h3>
-        <p>Una familia unida por la germanor.</p>
-      </div>
+  <div class="container hero-glass-cards hero-stats">
+  <div class="hero-glass-card hero-stat-card reveal">
+    <span>👥</span>
+    <div>
+      <h3><small>+</small><strong class="counter" data-target="180">0</strong></h3>
+      <p>Falleros en la comisión</p>
     </div>
   </div>
+
+  <div class="hero-glass-card hero-stat-card reveal">
+    <span>🏛️</span>
+    <div>
+      <h3><strong class="counter" data-target="15">0</strong></h3>
+      <p>Años de historia</p>
+    </div>
+  </div>
+
+  <div class="hero-glass-card hero-stat-card reveal">
+    <span>🎉</span>
+    <div>
+      <h3><strong class="counter" data-target="100">0</strong><small>%</small></h3>
+      <p>Germanor</p>
+    </div>
+  </div>
+</div>
 </section>
 
 <section class="section about-section" id="quienes-somos">
@@ -218,22 +262,24 @@ $ultimosActos = array_slice($ultimosActos, 0, 3);
     <div class="cards-grid actos-grid <?= count($proximosActos) < 3 ? 'actos-grid-center' : '' ?>">
       <?php if (!empty($proximosActos)): ?>
         <?php foreach ($proximosActos as $acto): ?>
-          <article class="event-card reveal">
+          <article class="event-card reveal" tabindex="0" role="button" aria-label="Ver detalles de <?= e($acto['titulo'] ?? 'Acto') ?>" <?= actoDataAttrs($acto) ?>>
+            <div class="event-image-wrap">
             <?php if (!empty($acto['imagen'])): ?>
-              <img src="<?= htmlspecialchars($acto['imagen']) ?>" alt="<?= htmlspecialchars($acto['titulo']) ?>" loading="lazy">
+              <img class="event-img" src="<?= e($acto['imagen']) ?>" alt="<?= e($acto['titulo']) ?>" loading="lazy">
             <?php else: ?>
-              <img src="assets/img/icon-192.png" alt="<?= htmlspecialchars($acto['titulo']) ?>" loading="lazy">
+              <img class="event-img event-img-contain" src="assets/img/icon-192.png" alt="<?= e($acto['titulo']) ?>" loading="lazy">
             <?php endif; ?>
+            </div>
 
             <div class="event-content">
               <span class="event-date">
-                <?= htmlspecialchars(date('d/m/Y', strtotime($acto['fecha']))) ?>
+                <?= e(date('d/m/Y', strtotime($acto['fecha']))) ?>
               </span>
 
-              <h3><?= htmlspecialchars($acto['titulo']) ?></h3>
+              <h3><?= e($acto['titulo']) ?></h3>
 
               <p>
-                <?= htmlspecialchars(mb_strimwidth($acto['descripcion'] ?? 'Acto de la comisión fallera.', 0, 120, '...')) ?>
+                <?= e(mb_strimwidth($acto['descripcion'] ?? 'Acto de la comisión fallera.', 0, 120, '...')) ?>
               </p>
             </div>
           </article>
@@ -258,28 +304,30 @@ $ultimosActos = array_slice($ultimosActos, 0, 3);
     <div class="cards-grid">
       <?php if (!empty($ultimosActos)): ?>
         <?php foreach ($ultimosActos as $acto): ?>
-          <article class="event-card reveal">
+          <article class="event-card reveal" tabindex="0" role="button" aria-label="Ver detalles de <?= e($acto['titulo'] ?? 'Acto') ?>" <?= actoDataAttrs($acto) ?>>
+            <div class="event-image-wrap">
             <?php if (!empty($acto['imagen'])): ?>
-              <img src="<?= htmlspecialchars($acto['imagen']) ?>" alt="<?= htmlspecialchars($acto['titulo']) ?>" loading="lazy">
+              <img class="event-img" src="<?= e($acto['imagen']) ?>" alt="<?= e($acto['titulo']) ?>" loading="lazy">
             <?php else: ?>
-              <img src="assets/img/icon-192.png" alt="<?= htmlspecialchars($acto['titulo']) ?>" loading="lazy">
+              <img class="event-img event-img-contain" src="assets/img/icon-192.png" alt="<?= e($acto['titulo']) ?>" loading="lazy">
             <?php endif; ?>
+            </div>
 
             <div class="event-content">
               <span class="event-date">
-                <?= htmlspecialchars(date('d/m/Y', strtotime($acto['fecha']))) ?>
+                <?= e(date('d/m/Y', strtotime($acto['fecha']))) ?>
               </span>
 
-              <h3><?= htmlspecialchars($acto['titulo']) ?></h3>
+              <h3><?= e($acto['titulo']) ?></h3>
 
               <p>
-                <?= htmlspecialchars(mb_strimwidth($acto['descripcion'] ?? 'Acto de la comisión fallera.', 0, 120, '...')) ?>
+                <?= e(mb_strimwidth($acto['descripcion'] ?? 'Acto de la comisión fallera.', 0, 120, '...')) ?>
               </p>
             </div>
           </article>
         <?php endforeach; ?>
       <?php else: ?>
-        <div class="no-actos reveal">
+        <div class="sin-actos no-actos reveal">
           No hay actos anteriores
         </div>
       <?php endif; ?>
@@ -291,7 +339,7 @@ $ultimosActos = array_slice($ultimosActos, 0, 3);
   <div class="container">
     <div class="section-title reveal">
       <span>Representantes</span>
-      <h2>Representantes del ejercicio 2026/2027</h2>
+      <h2>Representantes del ejercicio 2025/2026</h2>
       <p>Las personas que representan con orgullo a nuestra comisión.</p>
     </div>
 
@@ -340,6 +388,41 @@ $ultimosActos = array_slice($ultimosActos, 0, 3);
       <img class="reveal" src="assets/img/falleras.webp" alt="Falleras Falla San Sebastián Arzobispo Fuero" loading="lazy">
       <img class="reveal" src="assets/img/premiosfalla.webp" alt="Premios Falla San Sebastián Arzobispo Fuero" loading="lazy">
       <img class="reveal" src="assets/img/cenafalla.webp" alt="Cena Representantes Falla San Sebastián Arzobispo Fuero" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<section class="section fallas-countdown-section" id="fallas-countdown-section">
+  <div class="container">
+    <div class="fallas-countdown-card reveal">
+      <div class="fallas-countdown-info">
+        <span class="section-label">Cuenta atrás fallera</span>
+        <h2>¡Ya queda menos para Fallas!🔥</h2>
+        <p id="fallas-countdown-subtitle">La ilusión, la pólvora y la germanor están cada día más cerca.</p>
+        <p>¡Apúntate ya y no te las pierdas!</p>
+      </div>
+
+      <div class="fallas-countdown-box" aria-live="polite">
+        <div id="fallas-countdown" class="fallas-countdown-grid">
+          <div class="fallas-time-item">
+            <strong id="fallas-days">--</strong>
+            <span>Días</span>
+          </div>
+          <div class="fallas-time-item">
+            <strong id="fallas-hours">--</strong>
+            <span>Horas</span>
+          </div>
+          <div class="fallas-time-item">
+            <strong id="fallas-minutes">--</strong>
+            <span>Min</span>
+          </div>
+          <div class="fallas-time-item">
+            <strong id="fallas-seconds">--</strong>
+            <span>Seg</span>
+          </div>
+        </div>
+        <div id="fallas-current-day" class="fallas-current-day" hidden></div>
+      </div>
     </div>
   </div>
 </section>
@@ -499,8 +582,7 @@ $ultimosActos = array_slice($ultimosActos, 0, 3);
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=7" defer></script>
-</body>
+<script src="assets/js/main.js?v=9" defer></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -520,4 +602,5 @@ $ultimosActos = array_slice($ultimosActos, 0, 3);
   ]
 }
 </script>
+</body>
 </html>
